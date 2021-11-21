@@ -1,21 +1,24 @@
-// this page will be rendered at the / or home page
+import MeetupList from "../components/meetups/MeetupList";
 
-import { Fragment } from "react";
-import Link from "next/link";
+const DUMMY_MEETUPS = [
+  {
+    id: "m1",
+    title: "A First meetup",
+    image:
+      "https://about.gitlab.com/images/blogimages/get-involved-with-gitlab-meetups/japanmeetup.jpg",
+    address: "First address, nr. 1, first street",
+  },
+  {
+    id: "m2",
+    title: "A Second meetup",
+    image:
+      "https://about.gitlab.com/images/blogimages/get-involved-with-gitlab-meetups/japanmeetup.jpg",
+    address: "Second address, nr. 2, second street",
+  },
+];
 
 const HomePage = () => {
-  return (
-    <Fragment>
-      <h1>the home page</h1>;
-      <ul>
-        <li>
-          {/* with link the request is not sent and the page will act as a SPA */}
-          <Link href="/news/nextJs-is-great">NextJS is great</Link>
-        </li>
-        <li>Something Else</li>
-      </ul>
-    </Fragment>
-  );
+  return <MeetupList meetups={DUMMY_MEETUPS} />;
 };
 
 export default HomePage;
