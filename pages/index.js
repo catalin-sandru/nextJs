@@ -31,6 +31,9 @@ export async function getStaticProps() {
     props: {
       meetups: DUMMY_MEETUPS,
     },
+    // revalidate will reEvaluate the component on the server in case new data is added
+    // the value is number in seconds on how often the component should re-evaluate in seconds
+    revalidate: 10,
   };
 }
 
