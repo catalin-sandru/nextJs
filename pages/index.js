@@ -17,8 +17,21 @@ const DUMMY_MEETUPS = [
   },
 ];
 
-const HomePage = () => {
-  return <MeetupList meetups={DUMMY_MEETUPS} />;
+// useEffect will be triggered AFTER the component is rendered
+// if we fetch API data in useEffect the page will be rendered without initial data
+const HomePage = (props) => {
+  return <MeetupList meetups={props.meetups} />;
 };
+
+// this function needs to be named getStaticProps
+// on render, the component waits for this function to execute, passes props, and AFTER renders the component
+export async function getStaticProps() {
+  // in here we can fetch api data
+  return {
+    props: {
+      meetups: DUMMY_MEETUPS,
+    },
+  };
+}
 
 export default HomePage;
