@@ -2,23 +2,6 @@ import { MongoClient } from "mongodb";
 
 import MeetupList from "../components/meetups/MeetupList";
 
-const DUMMY_MEETUPS = [
-  {
-    id: "m1",
-    title: "A First meetup",
-    image:
-      "https://about.gitlab.com/images/blogimages/get-involved-with-gitlab-meetups/japanmeetup.jpg",
-    address: "First address, nr. 1, first street",
-  },
-  {
-    id: "m2",
-    title: "A Second meetup",
-    image:
-      "https://about.gitlab.com/images/blogimages/get-involved-with-gitlab-meetups/japanmeetup.jpg",
-    address: "Second address, nr. 2, second street",
-  },
-];
-
 // useEffect will be triggered AFTER the component is rendered
 // if we fetch API data in useEffect the page will be rendered without initial data
 const HomePage = (props) => {
