@@ -1,15 +1,16 @@
+import { MongoClient, ObjectId } from "mongodb";
 import { Fragment } from "react";
 
 import MeetupDetail from "../../components/meetups/MeetupDetail";
 
-const MeetupDetails = () => {
+const MeetupDetails = (props) => {
   return (
     <Fragment>
       <MeetupDetail
-        image="https://about.gitlab.com/images/blogimages/get-involved-with-gitlab-meetups/japanmeetup.jpg"
-        title="A First Meetup"
-        address="Some Address"
-        description="The meetup description."
+        image={props.meetupData.image}
+        title={props.meetupData.title}
+        address={props.meetupData.address}
+        description={props.meetupData.description}
       />
     </Fragment>
   );
@@ -17,36 +18,52 @@ const MeetupDetails = () => {
 
 // this function in required to tell nextJs for whitch dynamic params this page should be pre-generated
 export async function getStaticPaths() {
+  const client = await MongoClient.connect(
+    "mongodb+srv://Admin:Admin1234@cluster0.sorwh.mongodb.net/meetups?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
+
+  client.close();
+
   return {
     fallback: false,
-    paths: [
-      {
-        params: {
-          meetupId: "m1",
-        },
+    paths: meetups.map((m) => ({
+      params: {
+        meetupId: m._id.toString(),
       },
-      {
-        params: {
-          meetupId: "m2",
-        },
-      },
-    ],
+    })),
   };
 }
 
 export async function getStaticProps(context) {
   const params = context.params;
-  console.log(context);
+
+  const client = await MongoClient.connect(
+    "mongodb+srv://Admin:Admin1234@cluster0.sorwh.mongodb.net/meetups?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  const selectedMeetup = await meetupsCollection.findOne({
+    _id: ObjectId(params.meetupId),
+  });
+  console.log(selectedMeetup);
+
+  client.close();
 
   return {
     props: {
       meetupData: {
-        id: "m1",
-        image:
-          "https://about.gitlab.com/images/blogimages/get-involved-with-gitlab-meetups/japanmeetup.jpg",
-        title: "A First Meetup",
-        address: "Some Address",
-        description: "The meetup description.",
+        id: selectedMeetup._id.toString(),
+        title: selectedMeetup.title,
+        image: selectedMeetup.image,
+        address: selectedMeetup.address,
+        description: selectedMeetup.description,
       },
     },
   };
