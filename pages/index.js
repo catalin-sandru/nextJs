@@ -13,7 +13,7 @@ const HomePage = (props) => {
         <title>React Meetups</title>
         <meta name="description" content="Browse a list of active meetings" />
       </Head>
-      <MeetupList meetups={props.meetups} />;
+      <MeetupList meetups={props.meetups} />
     </Fragment>
   );
 };
