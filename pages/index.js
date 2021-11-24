@@ -1,11 +1,21 @@
+import Head from "next/head";
 import { MongoClient } from "mongodb";
 
 import MeetupList from "../components/meetups/MeetupList";
+import { Fragment } from "react";
 
 // useEffect will be triggered AFTER the component is rendered
 // if we fetch API data in useEffect the page will be rendered without initial data
 const HomePage = (props) => {
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>React Meetups</title>
+        <meta name="description" content="Browse a list of active meetings" />
+      </Head>
+      <MeetupList meetups={props.meetups} />;
+    </Fragment>
+  );
 };
 
 // this function needs to be named getStaticProps
